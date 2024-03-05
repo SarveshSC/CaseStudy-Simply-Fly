@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 	@Query(value="select count(*) from user where email=?1",nativeQuery = true)
 	public Integer existsByEmail(String email);
 	
+	
+	
+	
 }

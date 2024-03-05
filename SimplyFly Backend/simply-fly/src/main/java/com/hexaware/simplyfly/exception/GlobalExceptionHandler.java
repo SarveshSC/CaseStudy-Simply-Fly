@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<String> handleExp(Exception e) {
 
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 
 	

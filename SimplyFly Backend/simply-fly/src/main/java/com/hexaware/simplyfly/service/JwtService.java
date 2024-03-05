@@ -4,8 +4,10 @@ import java.security.Key;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +37,7 @@ public class JwtService {
 		return Jwts.builder().
 				setClaims(claims).setSubject(username)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis()+1000*60*300))
+				.setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
 				.claim("role", claims.get("role"))
 				.signWith(getSignKey(),SignatureAlgorithm.HS256).compact();
 	

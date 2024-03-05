@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,9 +40,9 @@ import com.hexaware.simplyfly.exception.SeatNotVacantException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.service.IBookingService;
 import com.hexaware.simplyfly.service.ICustomerService;
-import com.hexaware.simplyfly.service.IMailService;
 import com.hexaware.simplyfly.service.IPdfGenerator;
 import com.hexaware.simplyfly.service.JwtService;
+import com.hexaware.simplyfly.service.pdfGenerator;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -59,15 +60,12 @@ public class CustomerRestController {
   
   	@Autowired
 	JwtService jwtService;
-	
-	@Autowired
-	private AuthenticationManager authManager;
-	
-	@Autowired
+  	
+  	@Autowired
   	IPdfGenerator generator;
 	
 	@Autowired
-	IMailService mailService;
+	private AuthenticationManager authManager;
 	
 
 	@PostMapping("/create-account")
@@ -95,10 +93,7 @@ public class CustomerRestController {
 		return bookingService.bookFlight(bookingDTO, username);
 	}
 	
-	@DeleteMapping("/booking/cancel-booking/{bookingId}/{customerId}")
-	public String cancelBooking(@PathVariable Integer bookingId, @PathVariable String customerId) throws BookingNotFoundException {
-		return bookingService.cancelBooking(bookingId, customerId);
-	}
+	
 	
 	@GetMapping("/booking/get-by-customer/{username}")
 	@PreAuthorize("hasAuthority('Customer')")
@@ -112,6 +107,7 @@ public class CustomerRestController {
 		return bookingService.cancelBooking(bookingId, username);
 	}
 	
+
 
 	@GetMapping("/booking/get-all-vacant-seats/{flightTripId}")
 	@PreAuthorize("hasAuthority('Customer')")
@@ -143,6 +139,8 @@ public class CustomerRestController {
 		return bookingService.getAllBookings();
 	}
 	
+	
+	
 	@GetMapping("/get-customer-bookings-by-username/{username}")
 	@PreAuthorize("hasAnyAuthority('Customer','Admin')")
 	public List<BookingDTO> getBookingsByCustomerUsername(@PathVariable String username) throws UserNotFoundException{
@@ -163,19 +161,6 @@ public class CustomerRestController {
 		generator.export(response, bookingId);
 	}
 	
-	@GetMapping("/mail-ticket/{bookingId}")
-	@PreAuthorize("hasAuthority('Customer')")
-	public void sendMail(HttpServletResponse response, @PathVariable int bookingId) throws Exception {
-		response.setContentType("application/pdf");
-		DateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
-		String currentDateTime=dateFormatter.format(new Date());
-		
-		String headerKey="Content-Disposition";
-		String headerValue="attachment; filename=pdf_"+currentDateTime+".pdf";
-		response.setHeader(headerKey, headerValue);
-		mailService.sendEmail(response, bookingId);
-	}
-	
 	@PutMapping("/update-profile/{username}")
 	@PreAuthorize("hasAnyAuthority('Customer','Admin','FlightOwner')")
 	public String updateProfile(@RequestBody UpdateProfileDTO updateProfileDTO,@PathVariable String username) throws Exception {
@@ -187,7 +172,10 @@ public class CustomerRestController {
 	public UpdateProfileDTO getProfille(@PathVariable String username) {
 	return customerService.getProfille(username);
 	}
+		
 	
 	
-
+	
+	
 }
+

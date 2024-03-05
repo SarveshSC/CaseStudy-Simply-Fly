@@ -7,18 +7,22 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.simplyfly.config.UserInfoUserDetails;
 import com.hexaware.simplyfly.dto.BookingDTO;
 import com.hexaware.simplyfly.dto.PassengerDTO;
 import com.hexaware.simplyfly.dto.UpdateProfileDTO;
 import com.hexaware.simplyfly.entities.Admin;
+import com.hexaware.simplyfly.entities.Bookings;
 import com.hexaware.simplyfly.entities.Customer;
 import com.hexaware.simplyfly.entities.FlightTrip;
 import com.hexaware.simplyfly.entities.SeatStructure;
 import com.hexaware.simplyfly.entities.User;
+import com.hexaware.simplyfly.exception.CustomerNotFoundException;
 import com.hexaware.simplyfly.exception.InvalidFlightException;
 import com.hexaware.simplyfly.repository.AdminRepository;
 import com.hexaware.simplyfly.repository.BookingRepository;
@@ -26,6 +30,7 @@ import com.hexaware.simplyfly.repository.CustomerRepository;
 import com.hexaware.simplyfly.repository.FlightTripRepository;
 import com.hexaware.simplyfly.repository.SeatStructureRepository;
 import com.hexaware.simplyfly.repository.UserRepository;
+
 
 import jakarta.transaction.Transactional;
 
@@ -97,7 +102,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		
 		return seatStructureRepo.getVacantSeats(flightTripId);
 	}
-	
+
 	@Override
 	public List<BookingDTO> getBookingsByCustomerUsername(String username) {
 		logger.info(username);
@@ -116,7 +121,7 @@ public class CustomerServiceImpl implements ICustomerService {
 				booking.getCustomer().getUsername(),
 				booking.getFlightTripForBooking().getFlightTripId())).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public String updateProfile(UpdateProfileDTO updateProfileDTO,String username) throws Exception {
 		Boolean exists=false;
@@ -216,6 +221,4 @@ Customer customer=custRepo.findById(username).orElse(null);
 		
 		throw new UsernameNotFoundException("username not found with"+username);
 	}
-	
-
 }
