@@ -1,0 +1,48 @@
+<div class="airport">
+  <div>
+    <h4><mat-icon>flight_takeoff</mat-icon>  {{flight.source.iataCode}} <br> {{flight.source.name}}, {{flight.source.location}}</h4>
+  </div>
+  <div>
+    <h4><mat-icon>flight_land</mat-icon>  {{flight.destination.iataCode}} <br> {{flight.destination.name}}, {{flight.destination.location}}</h4>
+  </div>
+</div>
+<h5>
+  {{flight.date | date : 'MMM d, y, h:mm a'}}
+</h5>
+<div class="page">
+    <div class="grid-container">
+      <div id="left-container">
+        <div *ngFor="let row of leftRows">
+          <div class="row-label">{{ row.name }}</div> <br>
+          <div *ngFor="let seat of getSeatsByRow(row.name)" class="box">
+            <a (click)="selectSeat($event)" [ngClass]="{'disabled': seat.status === 'Booked'}">
+              <div class="seat"  
+              [ngStyle]="{ 'background-color': seat.status === 'Booked' ? 'grey' : isSelected[seat.seatNo] ? 'green' : 'white' }">
+                <span>{{seat.seatNo}} {{seat.status}}</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="right-container">
+        <div *ngFor="let row of rightRows">
+          <div class="row-label">{{ row.name }}</div> <br>
+          <div *ngFor="let seat of getSeatsByRow(row.name)" class="box">
+            <a (click)="selectSeat($event)" [ngClass]="{'disabled': seat.status === 'Booked'}">
+              <div class="seat"  
+              [ngStyle]="{ 'background-color': seat.status === 'Booked' ? 'grey' : isSelected[seat.seatNo] ? 'green' : 'white' }">
+                <span>{{seat.seatNo}} {{seat.status}}</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="payment">
+    Total Seats = {{ selectedSeats.size }}<br />
+    Fare for 1 adult -  {{ticketPrice | currency : 'INR' : 'symbol'}} <br>
+    Total Amount = {{ ticketPrice * selectedSeats.size | currency : 'INR' : 'symbol'}}
+    <button class="btn btn-primary" (click)="continue()" [disabled]="!(selectedSeats.size > 0)">Continue</button>
+  </div>
+</div>

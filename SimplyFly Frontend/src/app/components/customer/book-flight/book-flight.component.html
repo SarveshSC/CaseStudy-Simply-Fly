@@ -1,0 +1,67 @@
+<div class="container">
+  <h2>Review your Journey</h2>
+  <p>{{flight.date | date : 'MMM d, y, h:mm a'}}</p>
+  <br>
+  <div class="airport">
+    <div class="source">
+      <div>
+        <mat-icon>flight_takeoff</mat-icon>
+      </div>
+      <div>
+        <h4> {{ source }}</h4> 
+        <p>{{flight.source.name}}</p>
+        <p>{{flight.source.location}}</p>
+      </div>
+    </div>
+    <div class="destination">
+      <div>
+        <mat-icon>flight_land</mat-icon>
+      </div>
+      <div>
+        <h4> {{ destination }}</h4> 
+        <p>{{flight.destination.name}}</p>
+        <p>{{flight.destination.location}}</p>
+      </div>
+    </div>
+  </div>
+  <br>
+  <h4>Ticket Price : {{ticketPrice | currency : 'INR' : 'symbol'}}</h4> 
+  <button routerLink="/customer/select-seats/{{ this.flightTripId }}" mat-raised-button>
+    Select Seats
+  </button>
+  <br>
+  <form #formData="ngForm" (ngSubmit)="readFormData(formData)">
+    <label for="form" *ngIf="selectedSeats.size > 0" >
+      <h3>Passenger Information</h3>
+  </label>
+    <div *ngFor="let seat of selectedSeats; let i = index">
+      <div class="row">
+        <div class="col">
+          <input type="text" id="name{{i}}" name="name{{i}}" class="form-control" [(ngModel)]="passengers[i].name" required placeholder="Name">
+        </div>
+        <div class="col">
+          <input type="number" id="age{{i}}" name="age{{i}}" class="form-control" [(ngModel)]="passengers[i].age" required placeholder="Age">
+        </div>
+        <div class="col">
+          <select id="gender{{i}}" name="gender{{i}}" class="form-control" [(ngModel)]="passengers[i].gender" required>
+            <option selected disabled value>Gender</option>
+            <option value="Male">Male</option>
+            <option value="Others">Female</option>
+            <option value="Female">Others</option>
+          </select>
+        </div>
+        <div class="col">
+          <input type="text" id="seatNo{{i}}" name="seatNo{{i}}" class="form-control" [(ngModel)]="passengers[i].seatNo" readonly [value]="seat" placeholder="{{seat}}">
+        </div>
+      </div>
+    </div>
+    <div class="submit" *ngIf="selectedSeats.size > 0">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="formData.invalid || selectedSeats.size === 0"
+        (click)="routeToPayment(ticketPrice * selectedSeats.size)">Continue
+      </button>
+    </div>
+  </form>
+</div>

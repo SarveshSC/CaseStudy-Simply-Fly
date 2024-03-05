@@ -1,0 +1,77 @@
+
+<div class="header">
+  <h2>Search Flights</h2>
+</div>
+  <form [formGroup]="myForm" (ngSubmit)="searchFlight()">
+<div mat-dialog-content>
+  
+    <div class="form-row">
+      <div class="col">
+        <mat-form-field>
+        <input formControlName="source" matInput placeholder="Source" [matAutocomplete]="auto1" >
+        <mat-autocomplete #auto1="matAutocomplete" >
+          <mat-option *ngFor="let option of filteredOptionsForSource | async " [value]="option.iataCode">
+            {{option.iataCode}}-{{option.location}}-{{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+        <input formControlName="destination" matInput placeholder="Destination" [matAutocomplete]="auto" >
+        <mat-autocomplete #auto="matAutocomplete" >
+          <mat-option *ngFor="let option of filteredOptionsForDestination | async " [value]="option.iataCode">
+            {{option.iataCode}}-{{option.location}}-{{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      </div>
+      <div class="col">
+        <!-- <input type="date" class="form-control" name="date" required ngModel> -->
+        <input type="date" formControlName="date" matInput placeholder="dATE" >
+      </div>
+      <br>
+    </div>
+      <div>
+        <button type="submit" class="btn btn-primary" [disabled]="!this.myForm.valid">Search</button>
+      </div>
+  
+</div>
+</form>
+<div class="info" *ngIf="getCurrentPageItems().length > 0">
+  <h3>Flights from {{this.flight.source.location}} to {{this.flight.destination.location}}</h3>
+</div>
+<div *ngIf="getCurrentPageItems().length > 0">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Flight Trip Id</th>
+        <th scope="col">Departure</th>
+        <th scope="col">Arrival</th>
+        <th scope="col">Ticket Price</th>
+        <th scope="col">Status</th>
+        <th scope="col">Filled Seats</th>
+        <th scope="col">Book</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flightTrip of getCurrentPageItems(); let i=index">
+        <td>{{flightTrip.flightTripId}}</td>
+        <td>{{ flightTrip.departure | date : 'MMM d, y, h:mm:ss a' }}</td>
+        <td>{{ flightTrip.arrival | date : 'MMM d, y, h:mm:ss a' }}</td>
+        <td>{{ flightTrip.ticketPrice | currency:'INR'}}</td>
+        <td>{{ flightTrip.status }}</td>
+        <td>{{ flightTrip.filledSeats }}</td>
+        <td><button mat-flat-button (click)="setFlightData(flight, flightTrip.ticketPrice, flightTrip.flightTripId)">Book</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <mat-paginator
+  class="table"
+  [pageSize]="pageSize"
+  [length]="totalItems"
+  showFirstLastButtons
+  (page)="onPageChange($event)"
+></mat-paginator>
+</div> 
