@@ -33,7 +33,9 @@
       <br>
     </div>
       <div>
-        <button type="submit" class="btn btn-primary" [disabled]="!this.myForm.valid">Search</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!this.myForm.valid && myForm.get('source')?.value  ===myForm.get('destination')?.value  ">Search</button>
+     
+      <span style="color: red;" *ngIf="myForm.get('source')?.value  ===myForm.get('destination')?.value" >Source and destination can't be same</span>
       </div>
   
 </div>

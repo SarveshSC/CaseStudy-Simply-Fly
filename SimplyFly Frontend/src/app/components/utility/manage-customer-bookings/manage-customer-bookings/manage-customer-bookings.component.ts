@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { booking } from 'src/app/model/booking.model';
 import { BookingService } from 'src/app/service/booking.service';
+import { CustomerDashboardService } from 'src/app/service/customer-dashboard.service';
 
 @Component({
   selector: 'app-manage-customer-bookings',
@@ -16,7 +17,7 @@ export class ManageCustomerBookingsComponent {
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
-  constructor(private service : BookingService) {}
+  constructor(private service : BookingService,private customerService : CustomerDashboardService) {}
 
   ngOnInit(){
     this.getCustomerBookings();
@@ -38,6 +39,19 @@ export class ManageCustomerBookingsComponent {
 
   cancel(bookingId : any){
     console.log(bookingId);
-    this.service.cancelBooking(bookingId)
+    this.service.cancelBooking(bookingId).subscribe((res)=>{
+      this.ngOnInit();
+    },(error)=>{
+      console.log(error.error)
+    })
   }
+
+print(bookingId:any){
+  console.log(bookingId);
+  this.customerService.printTicket(bookingId).subscribe((res)=>{
+    let blob:Blob=res.body as Blob;
+    let url=window.URL.createObjectURL(blob);
+    window.open(url);
+  })
+  }
 }

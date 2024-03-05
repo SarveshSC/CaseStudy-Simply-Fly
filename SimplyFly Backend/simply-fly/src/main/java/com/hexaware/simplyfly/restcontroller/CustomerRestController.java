@@ -40,6 +40,7 @@ import com.hexaware.simplyfly.exception.SeatNotVacantException;
 import com.hexaware.simplyfly.exception.UserNotFoundException;
 import com.hexaware.simplyfly.service.IBookingService;
 import com.hexaware.simplyfly.service.ICustomerService;
+import com.hexaware.simplyfly.service.IMailService;
 import com.hexaware.simplyfly.service.IPdfGenerator;
 import com.hexaware.simplyfly.service.JwtService;
 import com.hexaware.simplyfly.service.pdfGenerator;
@@ -63,6 +64,9 @@ public class CustomerRestController {
   	
   	@Autowired
   	IPdfGenerator generator;
+  	
+  	@Autowired
+	IMailService mailService;
 	
 	@Autowired
 	private AuthenticationManager authManager;
@@ -171,6 +175,19 @@ public class CustomerRestController {
 	@PreAuthorize("hasAnyAuthority('Customer','Admin','FlightOwner')")
 	public UpdateProfileDTO getProfille(@PathVariable String username) {
 	return customerService.getProfille(username);
+	}
+	
+	@GetMapping("/mail-ticket/{bookingId}")
+	@PreAuthorize("hasAuthority('Customer')")
+	public void sendMail(HttpServletResponse response, @PathVariable int bookingId) throws Exception {
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+		String currentDateTime=dateFormatter.format(new Date());
+		
+		String headerKey="Content-Disposition";
+		String headerValue="attachment; filename=pdf_"+currentDateTime+".pdf";
+		response.setHeader(headerKey, headerValue);
+		mailService.sendEmail(response, bookingId);
 	}
 		
 	

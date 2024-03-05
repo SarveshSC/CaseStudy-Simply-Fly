@@ -1,0 +1,51 @@
+<p>update-profile works!</p>
+<button (click)="toggleEditable()" mat-raised-button color="green">edit</button>
+
+<form [formGroup]="myForm" (ngSubmit)="updateProfile()">
+    <h1 mat-dialog-title style="align-items: center;">Update the Profile</h1>
+    <div mat-dialog-content>
+
+        
+
+        <ng-container>
+        <mat-form-field *ngIf="role==='Customer'">
+            <mat-label>Name</mat-label>
+            <input formControlName="name" matInput  [readonly]="isreadonly">
+            <small *ngIf="myForm.get('name')?.hasError('required')" class="text-danger">
+              Name is required
+            </small>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container>
+            <mat-form-field *ngIf="role==='Customer'">
+                <mat-label>Contact</mat-label>
+                <input formControlName="contact" matInput  [readonly]="isreadonly">
+                <small *ngIf="myForm.get('contact')?.hasError('required')" class="text-danger">
+                  Contact is required
+                </small>
+              </mat-form-field>
+            </ng-container>
+
+            <ng-container>
+                <mat-form-field >
+                    <mat-label>Email</mat-label>
+                    <input formControlName="email" matInput  [readonly]="isreadonly">
+                    <small *ngIf="myForm.get('email')?.hasError('required')" class="text-danger">
+                      Email is required
+                    </small>
+                  </mat-form-field>
+                </ng-container>
+
+              
+
+    </div>
+    <div mat-dialog-actions>
+    
+        <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
+        <button (click)="closePopup()" mat-raised-button color="warn">close</button>
+    <!-- <button  [matDialogClose]="closedMessage" mat-raised-button color="accent">cancel</button> -->
+    
+    </div>
+
+</form>

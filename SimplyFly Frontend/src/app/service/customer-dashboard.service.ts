@@ -4,6 +4,7 @@ import { flightSearch } from '../model/flightSearch.model';
 import { airports } from '../model/airport.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { booking } from '../model/booking.model';
+import { userProfile } from '../model/userProfile';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,14 @@ export class CustomerDashboardService {
       (res) => console.log(res),
       (err) => console.error(err)
     );
+  }
+
+  getProfile(username:any){
+    return this.http.get<userProfile>(this.baseURL+'get-profile/'+localStorage.getItem('username'),{headers:this.getHeaders()})
+  }
+  
+  updateProfile(userProfile:userProfile){
+    return this.http.put<string>(this.baseURL+'update-profile/'+localStorage.getItem('username'),userProfile,{headers:this.getHeaders(),responseType:'text' as 'json'})
   }
 
 }

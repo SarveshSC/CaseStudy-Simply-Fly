@@ -126,10 +126,7 @@ export class BookingService {
     console.log('delete')
     console.log(bookingId)
     console.log(this.baseURL+'customers/booking/cancel-flight/'+ localStorage.getItem('username') + '/' + bookingId)
-    this.http.put<string>(this.baseURL+'customers/booking/cancel-flight/'+ localStorage.getItem('username') + '/' + bookingId,{}, {headers : this.getHeaders()}).subscribe(
-      (response) => console.log(response),
-      (error) => console.error(error)
-    );
+     return this.http.put<string>(this.baseURL+'customers/booking/cancel-flight/'+ localStorage.getItem('username') + '/' + bookingId,{}, {headers : this.getHeaders(),responseType:'text' as 'json'})
   }
 
   setPaymentId(paymentId : string){

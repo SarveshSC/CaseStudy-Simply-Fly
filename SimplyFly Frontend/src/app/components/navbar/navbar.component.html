@@ -13,6 +13,7 @@
             <a routerLink="/login" *ngIf="getLoginStatus() == null">Login</a>
             <a (click)="redirectToDashboard()" *ngIf="getLoginStatus() == 'true'">Dashboard</a>
             <a (click)="logout()" *ngIf="getLoginStatus() == 'true'">Logout <mat-icon >exit_to_app</mat-icon></a>
+            <a (click)="updateProfile()" *ngIf="getLoginStatus() == 'true'">Profile <mat-icon >profile</mat-icon></a>
         </div>
     </div>
 </div>

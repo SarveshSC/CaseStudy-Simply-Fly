@@ -204,4 +204,8 @@ public class BookingServiceImpl implements IBookingService {
 	public List<Bookings> getAllBookings(){
 		return bookingRepo.findAll();
 	}
+	
+	public String getMaxId() {
+		return passengerRepo.getMaxPassengerId();
+	}
 }

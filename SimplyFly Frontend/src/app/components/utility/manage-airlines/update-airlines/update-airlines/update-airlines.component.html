@@ -1,0 +1,33 @@
+<p>update-airlines works!</p>
+<form [formGroup]="myForm" (ngSubmit)="updateAirline()">
+    <h1 mat-dialog-title style="align-items: center;">Update the Airport</h1>
+    <div mat-dialog-content>
+        <mat-form-field>
+            <mat-label>Airine Id</mat-label>
+            <input formControlName="airlineId" matInput readonly >
+            <small *ngIf="myForm.get('airlineId')?.hasError('required')" class="text-danger">
+              IATA Code is required.
+            </small>
+            
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <mat-label>Airlline Name</mat-label>
+            <input formControlName="airlineName" matInput >
+            <small *ngIf="myForm.get('airlineName')?.hasError('required')" class="text-danger">
+              Airport name is required is required.
+            </small>
+          </mat-form-field>
+
+         
+    </div>
+    <div mat-dialog-actions>
+        <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
+        <button (click)="closePopup()" mat-raised-button color="warn">close</button>
+    <!-- <button  [matDialogClose]="closedMessage" mat-raised-button color="accent">cancel</button> -->
+    </div>
+
+
+</form>
+

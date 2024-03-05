@@ -97,4 +97,8 @@ export class AdminDashboardService {
   addUser(flightOwner:flightOwner){
     return this.http.post(this.baseURL+'add-user',flightOwner)
   }
+
+  updateAirline(airline: airline){
+    return this.http.put(this.baseURL+'update-airline',airline,{headers:this.getHeaders(),responseType:'json'})
+  }
 }

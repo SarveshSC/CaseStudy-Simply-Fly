@@ -115,9 +115,9 @@ public class CustomerServiceImpl implements ICustomerService {
 						passenger.getName(),
 						passenger.getAge(),
 						passenger.getGender(),
-						 Optional.ofNullable(passenger.getSeat().getSeatNo().getSeatNo())
-                         .map(Object::toString)
-                         .orElse("no seat"))).collect(Collectors.toSet()), 
+						Optional.ofNullable(passenger.getSeat())
+                        .map(seat->seat.getSeatNo().getSeatNo())
+                        .orElse("no seat"))).collect(Collectors.toSet()), 
 				booking.getCustomer().getUsername(),
 				booking.getFlightTripForBooking().getFlightTripId())).collect(Collectors.toList());
 	}

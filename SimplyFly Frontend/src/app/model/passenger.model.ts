@@ -3,5 +3,5 @@ export interface passenger{
     name : string;
     age : number;
     gender : string;
-    seatNo : string;
+    seat : string;
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookingService } from './booking.service';
 import { CustomerDashboardService } from './customer-dashboard.service';
@@ -13,7 +13,7 @@ export class PaymentService {
   flag : boolean = false;
   paymentId : string = '';
 
-  constructor(private router : Router, private bookingService : BookingService) { }
+  constructor(private router : Router, private bookingService : BookingService,private zone:NgZone) { }
 
   initiatePayment(amount : number): void {
      
@@ -28,9 +28,11 @@ export class PaymentService {
         // Handle payment success   
         this.paymentId = response.razorpay_payment_id;
         this.bookingService.setPaymentId(this.paymentId);
-
+        
         this.bookingService.bookFlights();
-        this.router.navigate(['/customer/booking-success'])
+        this.zone.run(() => {
+          this.router.navigate(['/customer/booking-success']);
+      });
 
       },
       prefill: {

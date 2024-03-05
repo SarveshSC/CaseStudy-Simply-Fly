@@ -1,7 +1,9 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { authRequest } from 'src/app/model/authRequest.model';
 import { AuthenticateService } from 'src/app/service/authenticate.service';
+import { UpdateProfileComponent } from './update-profile/update-profile/update-profile.component';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +20,7 @@ export class NavbarComponent implements AfterViewChecked{
   
   username : string | null = this.authService.username;
   
-  constructor(private route : Router, private authService : AuthenticateService) {}
+  constructor(private route : Router, private authService : AuthenticateService,private dialog:MatDialog) {}
 
   ngAfterViewChecked(): void {  
     this.username = localStorage.getItem('username');
@@ -53,5 +55,18 @@ export class NavbarComponent implements AfterViewChecked{
 
   getLoginStatus(){
     return localStorage.getItem('isLoggedIn');
+  }
+
+  updateProfile(){
+    var popup=this.dialog.open(UpdateProfileComponent,{
+      width:'40%',
+  height:'80%',
+  enterAnimationDuration:'1000ms',
+  exitAnimationDuration:'1000ms',
+  data:{
+    
+    title:'update the profile'
+  }
+    });
   }
 }

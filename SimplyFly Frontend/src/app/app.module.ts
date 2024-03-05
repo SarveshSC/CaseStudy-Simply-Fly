@@ -53,6 +53,8 @@ import { UpdateAirportsFormComponent } from './components/utility/manage-airport
 import { CustomernamePipe } from './components/utility/manage-customers/pipes/customername.pipe';
 import { AddAirlinesComponent } from './components/utility/manage-airlines/add-airlines/add-airlines/add-airlines.component';
 import { BookingSuccessComponent } from './components/customer/booking-success/booking-success.component';
+import { UpdateProfileComponent } from './components/navbar/update-profile/update-profile/update-profile.component';
+import { UpdateAirlinesComponent } from './components/utility/manage-airlines/update-airlines/update-airlines/update-airlines.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,7 +94,9 @@ import { BookingSuccessComponent } from './components/customer/booking-success/b
     UpdateAirportsFormComponent,
     CustomernamePipe,
     AddAirlinesComponent,
-    BookingSuccessComponent
+    BookingSuccessComponent,
+    UpdateProfileComponent,
+    UpdateAirlinesComponent
   ],
   imports: [
     BrowserModule,

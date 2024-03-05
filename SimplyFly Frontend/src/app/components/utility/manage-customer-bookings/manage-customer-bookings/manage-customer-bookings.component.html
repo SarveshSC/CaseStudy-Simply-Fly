@@ -11,6 +11,7 @@
       <th scope="col">Amount</th>
       <th scope="col">Booking Status</th>
       <th scope="col">Cancel</th>
+      <th scope="col">Download</th>
     </tr>
   </thead>
   <tbody>
@@ -20,7 +21,8 @@
       <td>{{ booking.passengers.length }}</td>
       <td>{{ booking.amount | currency : 'INR' : 'symbol'}}</td>
       <td>{{ booking.status }}</td>
-      <td><button mat-icon-button (click)="cancel(booking.bookingId)"><mat-icon>cancel</mat-icon></button></td>
+      <td><button  [disabled]="booking.status=='Cancelled'"     mat-icon-button (click)="cancel(booking.bookingId)"><mat-icon>cancel</mat-icon></button></td>
+      <td > <button  [disabled]="booking.status=='Cancelled'"  (click)="print(booking.bookingId)">Ticket <mat-icon><mat-icon>save_alt</mat-icon></mat-icon></button> </td>
     </tr>
   </tbody>
 </table>

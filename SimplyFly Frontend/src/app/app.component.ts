@@ -8,7 +8,7 @@ import { Component, HostListener } from '@angular/core';
 export class AppComponent {
   title = 'simply-fly';
 
-  // constructor(private location:Location){}
+  constructor(){}
 
   // @HostListener('window:popstate')
   // onPopState(){

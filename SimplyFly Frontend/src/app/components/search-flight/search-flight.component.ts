@@ -100,11 +100,12 @@ export class SearchFlightComponent implements OnInit {
     if(localStorage.getItem('username') === 'Guest'){
       this.route.navigate(['/login']);
     }
-    this.bookingService.clearSelectedSeats();
-    this.customerService.setFlightData(flight, ticketPrice);
-
-    this.route.navigate(['/customer/book-flight/',flightTripId])
-  }
+    else{ 
+      this.bookingService.clearSelectedSeats();
+      this.customerService.setFlightData(flight, ticketPrice);
+      this.route.navigate(['/customer/book-flight/',flightTripId])
+    }
+  }
 
   getAllAirports() {
     this.dashboardService.getAllAirports().subscribe((list) => {

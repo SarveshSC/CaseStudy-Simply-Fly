@@ -5,6 +5,7 @@ import { AirlinesService } from 'src/app/service/airlines.service';
 import { LoginComponent } from '../../login/login.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { AddAirlinesComponent } from './add-airlines/add-airlines/add-airlines.component';
+import { UpdateAirlinesComponent } from './update-airlines/update-airlines/update-airlines.component';
 
 @Component({
   selector: 'app-manage-airlines',
@@ -86,6 +87,22 @@ export class ManageAirlinesComponent implements OnInit{
   onSearch() {
     // Reset paginator to first page when searching
     this.paginator.firstPage();
+  }
+
+  updateAirline(id:any,name:any){
+    var popup=this.dialog.open(UpdateAirlinesComponent,{
+      width:'40%',
+      height:'100%',
+      enterAnimationDuration:'1000ms',
+      exitAnimationDuration:'1000ms',
+      data:{
+        
+        id:id,
+        name:name
+       
+      }
+    });
+    popup.afterClosed().subscribe(item=>{this.getAirlines();})
   }
     
 }
